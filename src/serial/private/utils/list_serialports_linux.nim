@@ -6,7 +6,8 @@ const deviceGrepPaths = ["/dev/ttyS*", "/dev/ttyUSB*", "/dev/ttyACM*", "/dev/tty
 
 proc checkPath(path: string): bool =
   let fileName = extractFilename(path)
-  let fullDevicePath = "/sys/class/tty" / filename / "device"
+  let fullDevicePath = "/sys/class/tty" / filename / "device" # serial have this path
+  let fullDeviceRFPath = "/sys/class/tty" / filename / "dev" #
 
   var subsystem: string = ""
 
@@ -16,6 +17,13 @@ proc checkPath(path: string): bool =
 
     if subsystem != "platform":
       result = true
+  
+  elif fileExists(fullDeviceRFPath):
+    result = true
+
+  else:
+    result = false
+  
 
 iterator getPortsForPath(path: string): string =
   for f in walkPattern(path):

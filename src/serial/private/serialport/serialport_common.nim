@@ -1,6 +1,6 @@
 ## Common types shared by all serialport implementations.
 
-import events
+#import events
 
 const
   TIMEOUT_INFINITE* = -1'i32

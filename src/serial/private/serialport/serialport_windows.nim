@@ -72,8 +72,6 @@ proc initDcb(port: SerialPort | AsyncSerialPort, baudRate: int32, parity: Parity
     port.dcb.StopBits = TWOSTOPBITS
   of StopBits.OnePointFive:
     port.dcb.StopBits = ONE5STOPBITS
-  else:
-    raise newException(InvalidStopBitsError, "Invalid number of stop bits '" & $stopBits & "'")
 
   port.dcb.Parity = byte(parity)
 
@@ -182,7 +180,7 @@ proc isCarrierHolding*(port: SerialPort | AsyncSerialPort): bool =
 
   result = (pinStatus and MS_RLSD_ON) != 0
 
-proc isCtsHolding*(port: SerialPort| AsyncSerialPort): bool =
+proc isCtsHolding*(port: SerialPort | AsyncSerialPort): bool =
   ## Check whether the clear to send signal is currently active.
   if not port.isOpen():
     raise newException(InvalidSerialPortStateError, "Cannot check the clear to send signal whilst the serial port is closed")
@@ -228,8 +226,6 @@ proc `stopBits=`*(port: SerialPort | AsyncSerialPort, stopBits: StopBits) =
     stopBitsNative = TWOSTOPBITS
   of StopBits.OnePointFive:
     stopBitsNative = ONE5STOPBITS
-  else:
-    raise newException(InvalidStopBitsError, "Invalid number of stop bits '" & $stopBits & "'")
 
   if stopBitsNative != port.dcb.StopBits:
     let oldStopBits = port.dcb.StopBits

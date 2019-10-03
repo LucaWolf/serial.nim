@@ -1,6 +1,6 @@
 ## Foreign function interfaces for Windows, which are missing from winlean.
 
-import winlean, os
+import winlean
 
 const
   ERROR_INVALID_PARAMETER* = 0x57'i32
@@ -26,7 +26,7 @@ const
   DTR_CONTROL_HANDSHAKE* = DWORD(0x02)
     ## Enables DTR handshaking. If handshaking is enabled, it is an error for the application to adjust the line by using the EscapeCommFunction function.
 
-  MAXDWORD*: DWORD = DWORD(high(uint32))
+  MAXDWORD*: DWORD = cast[DWORD](high(uint32))
 
   EV_BREAK*: DWORD = DWORD(0x0040)
     ## A break was detected on input.
@@ -105,7 +105,7 @@ type
 
   WORD* = uint16
 
-  CommProp* {.importc: "COMMPROP", header: "Windows.h", incompleteStruct.} = object
+  CommProp* {.importc: "COMMPROP", header: "windows.h", incompleteStruct.} = object
     wPacketLength*: WORD ## The size of the entire data packet, regardless of the amount of data requested, in bytes.
     wPacketVersion*: WORD ## The version of the structure.
     dwServiceMask*: DWORD ## A bitmask indicating which services are implemented by this provider. The SP_SERIALCOMM value is always specified for communications providers, including modem providers.
@@ -127,7 +127,7 @@ type
 
   LPCOMMPROP* = ptr CommProp
 
-  ComStat* {.importc: "COMSTAT", header: "Windows.h", incompleteStruct.} = object
+  ComStat* {.importc: "COMSTAT", header: "windows.h", incompleteStruct.} = object
     fCtsHold* {.bitsize:1.}: DWORD ## If this member is TRUE, transmission is waiting for the CTS (clear-to-send) signal to be sent.
     fDsrHold* {.bitsize:1.}: DWORD ## If this member is TRUE, transmission is waiting for the DSR (data-set-ready) signal to be sent.
     fRlsdHold* {.bitsize:1.}: DWORD ## If this member is TRUE, transmission is waiting for the RLSD (receive-line-signal-detect) signal to be sent.
